@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Go/WASM TRIAL (Tiny)</title>
+    <script src="./tinygo_wasm_exec.js"></script>
+    <script src="wrap_go.js"></script>
+    <script src="main.js"></script>
+</head>
+
+<body>
+    <h1>Go/WASM TRIAL (Tiny)</h1>
+    <a href="./index.html">Go version</a>
+
+    <script>
+        let _instance = null;
+        initTinyGo(fetch("output_tiny_mini.wasm")).then(result => {
+            const { instance, go } = result;
+            _instance = instance; // Assign instance to _instance
+            execTest(_instance);
+        });
+        window.addEventListener('beforeunload', () => {
+            if (_instance) {
+                _instance.exports.exit();
+            }
+        });
+    </script>
+
+
+</body>
+
+</html>
